@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/conexion.js";
-import { Ordenes } from "./ordenes.js";
 
 /**
  * @openapi
@@ -16,7 +15,7 @@ import { Ordenes } from "./ordenes.js";
  *            type: integer
  *            example: 0
  */
-export const Estados = sequelize.define("estados",
+export const Estados = sequelize.define("estados_aprobaciones",
     {
         id: {
             type: DataTypes.INTEGER,

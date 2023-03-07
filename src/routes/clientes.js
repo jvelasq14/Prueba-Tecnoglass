@@ -97,33 +97,37 @@ router.get('/:id', getCliente);
  */
 router.get('/', getClientes);
 /**
-* @openapi
-* /api/clientes/{id}:
-*   put:
-*     tags:
-*       - API CLIENTES
-*     requestBody:
-*         description: update a new cliente
-*         content:
-*           application/json:
-*             schema:
-*               $ref: '#/components/schemas/clientes'
-*     responses:
-*       200:
-*         description: OK
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 status:
-*                   type: string
-*                   example: OK
-*                 data:
-*                   type: array 
-*                   items: 
-*                     type: object
-*/
+ * @openapi
+ * /api/clientes/{id}:
+ *   put:
+ *     tags: [API CLIENTES]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: id  de la clase clientes
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/clientes'
+ *     responses:
+ *       200:
+ *         decsription: The post was updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/clientes'
+ *       404:
+ *         description: post was not found.
+ *       500:
+ *         description: Some errors happend.
+ *
+ */
+
 router.put('/:id', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('direccion', 'La direccion es obligatorio').not().isEmpty(),

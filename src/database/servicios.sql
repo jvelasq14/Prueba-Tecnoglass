@@ -12,7 +12,7 @@ CREATE TABLE `clientes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `estados` (
+CREATE TABLE `estados_aprobaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `estado` int(11) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `estados` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `estados` (`id`, `nombre`, `estado`, `fecha_modificacion`) VALUES
+INSERT INTO `estados_aprobaciones` (`id`, `nombre`, `estado`, `fecha_modificacion`) VALUES
 (1, 'Solicitada', 1, '2023-03-02 19:24:20'),
 (2, 'Aprobada', 1, '2023-03-02 19:24:20'),
 (3, 'Anulada', 1, '2023-03-02 19:24:20');
@@ -30,7 +30,7 @@ CREATE TABLE `ordenes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `clienteId` int(11) NOT NULL,
   `fecha_orden` date NOT NULL,
-  `estadoId` int(11) NOT NULL,
+  `estadosAprobacioneId` int(11) NOT NULL,
   `estado` int(11) NOT NULL,
   `fecha_modificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -45,7 +45,8 @@ CREATE TABLE `productos` (
   `nombre` varchar(120) NOT NULL,
   `ordeneId` int(11) NOT NULL,
   `descripcion` varchar(250) NOT NULL,
-  `medidas` int(11) NOT NULL,
+   `alto` varchar(45) NOT NULL,
+  `ancho` varchar(45) NOT NULL,
   `estado` int(11) NOT NULL,
   `fecha_modificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),

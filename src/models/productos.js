@@ -18,7 +18,10 @@ import { Ordenes } from "./ordenes.js";
  *         descripcion:
  *           type: string
  *           example: "string"
- *         medidas:
+ *         alto:
+ *            type: string
+ *            example: "string"
+ *         ancho:
  *            type: string
  *            example: "string"
  *         estado:
@@ -44,7 +47,10 @@ export const Productos = sequelize.define("productos",
         descripcion: {
             type: DataTypes.STRING
         },
-        medidas: {
+        alto: {
+            type: DataTypes.STRING
+        },
+        ancho: {
             type: DataTypes.STRING
         },
         estado: {

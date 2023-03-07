@@ -39,7 +39,8 @@ router.post('/', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('ordeneId', 'La ordeneId es obligatorio').not().isEmpty(),
     check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
-    check('medidas', 'La medida es obligatorio').not().isEmpty(),
+    check('alto', 'La altura es obligatorio').not().isEmpty(),
+    check('ancho', 'el ancho es obligatorio').not().isEmpty(),
     check('estado', 'El estado es obligatorio').not().isEmpty(),
     validarCampos], crearProducto);
 /**
@@ -97,38 +98,42 @@ router.get('/:id', getProducto);
  */
 router.get('/', getProductos);
 /**
-* @openapi
-* /api/productos/{id}:
-*   put:
-*     tags:
-*       - API PRODUCTOS
-*     requestBody:
-*         description: update a new productos
-*         content:
-*           application/json:
-*             schema:
-*               $ref: '#/components/schemas/productos'
-*     responses:
-*       200:
-*         description: OK
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 status:
-*                   type: string
-*                   example: OK
-*                 data:
-*                   type: array 
-*                   items: 
-*                     type: object
-*/
+ * @openapi
+ * /api/productos/{id}:
+ *   put:
+ *     tags: [API PRODUCTOS]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: id  de la clase productos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/productos'
+ *     responses:
+ *       200:
+ *         decsription: The productos was updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/productos'
+ *       404:
+ *         description: post was not found.
+ *       500:
+ *         description: Some errors happend.
+ *
+ */
 router.put('/:id', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('ordeneId', 'La ordeneId es obligatorio').not().isEmpty(),
     check('descripcion', 'La descripcion es obligatorio').not().isEmpty(),
-    check('medidas', 'La medida es obligatorio').not().isEmpty(),
+    check('alto', 'La altura es obligatorio').not().isEmpty(),
+    check('ancho', 'el ancho es obligatorio').not().isEmpty(),
     check('estado', 'El estado es obligatorio').not().isEmpty(),
     validarCampos], editarProducto);
 

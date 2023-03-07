@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/conexion.js";
 
 import { Clientes } from "./clientes.js"
+import { Estados } from "./estados.js";
 
 /**
  * @openapi
@@ -16,7 +17,7 @@ import { Clientes } from "./clientes.js"
  *         fecha_orden:
  *           type: date
  *           example: 2023-03-06
- *         estadoId:
+ *         estadosaprobacioneId:
  *           type: integer
  *           example: 0
  *         estado:
@@ -36,7 +37,7 @@ export const Ordenes = sequelize.define("ordenes",
         fecha_orden: {
             type: DataTypes.DATE
         },
-        estadoId: {
+        estadosaprobacioneId: {
             type: DataTypes.STRING
         },
         estado: {
@@ -58,4 +59,8 @@ Clientes.hasMany(Ordenes, {
   });
   Ordenes.belongsTo(Clientes, { foreinkey: "clienteId", targetId: "id" });
   
-  
+  Estados.hasMany(Ordenes, { 
+    foreinkey: "estadosaprobacioneId",
+    sourceKey: "id",
+  })
+  Ordenes.belongsTo(Estados,  { foreinkey: "estadosaprobacioneId", targetId: "id" })

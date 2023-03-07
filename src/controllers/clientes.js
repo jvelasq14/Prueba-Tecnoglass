@@ -79,8 +79,8 @@ export const crearCliente = async (req = request, res = response) => {
 export const editarCliente = async (req, res = response) => {
 
     const { id } = req.params;
-    const { body } = req;
-
+    const {  nombre, direccion, telefono, nacionalidad, correo, estado  } = req.body;
+    var fecha = Date.now();
     try {
 
         const clientes = await Clientes.findByPk(id);
@@ -90,7 +90,7 @@ export const editarCliente = async (req, res = response) => {
             });
         }
 
-        await clientes.update(body);
+        await clientes.update({ nombre, direccion, telefono, nacionalidad, correo, estado, fecha_modificacion: fecha });
 
         res.json(clientes);
 

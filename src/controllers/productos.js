@@ -45,7 +45,7 @@ export const getProducto = async (req, res = response) => {
 
 export const crearProducto = async (req = request, res = response) => {
 
-    const { nombre, ordeneId,descripcion,medidas, estado } = req.body;
+    const { nombre, ordeneId,descripcion,alto,ancho, estado } = req.body;
 
     try {
 
@@ -57,7 +57,7 @@ export const crearProducto = async (req = request, res = response) => {
         }
         const consecutivos = await generarConsecutivo(10000)
         console.log(consecutivos)
-        const productos = await Productos.create({ nombre, ordeneId,descripcion,consecutivo: consecutivos, medidas, estado })
+        const productos = await Productos.create({ nombre, ordeneId,descripcion,consecutivo: consecutivos, alto,ancho, estado })
 
         res.json(productos);
 
@@ -74,8 +74,8 @@ export const crearProducto = async (req = request, res = response) => {
 export const editarProducto = async (req, res = response) => {
 
     const { id } = req.params;
-    const { nombre, ordeneId,descripcion,medidas, estado  } = req.body;
-
+    const { nombre, ordeneId,descripcion,alto,ancho, estado  } = req.body;
+    var fecha = Date.now();
     try {
 
         const Orden = await Clientes.findByPk(ordeneId)
@@ -91,7 +91,7 @@ export const editarProducto = async (req, res = response) => {
             });
         }
         const consecutivos = generarConsecutivo(10000)
-        await ordenes.update({nombre, ordeneId,descripcion,consecutivo: consecutivos,medidas, estado });
+        await ordenes.update({nombre, ordeneId,descripcion,consecutivo: consecutivos,alto,ancho, estado, fecha_modificacion: fecha });
 
         res.json(ordenes);
 

@@ -14,8 +14,14 @@ export const getOrdenes = async (req, res = response) => {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
-            }, {
+            },{
                 model: Productos,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            },
+            {
+                model: Estados,
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
@@ -42,6 +48,11 @@ export const getOrden = async (req, res = response) => {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
+            }, {
+                model: Estados,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
             }]
     });
 
@@ -56,7 +67,7 @@ export const getOrden = async (req, res = response) => {
 
 export const crearOrden = async (req = request, res = response) => {
 
-    const { clienteId, estadoId, fecha_orden, estado } = req.body;
+    const { clienteId, estadoaprobacioneId, fecha_orden, estado } = req.body;
 
     try {
 
@@ -66,7 +77,7 @@ export const crearOrden = async (req = request, res = response) => {
                 msg: 'El cliente ingresado no existe'
             })
         }
-        const ordenes = await Ordenes.create({ clienteId, estadoId, fecha_orden, estado })
+        const ordenes = await Ordenes.create({clienteId, estadoaprobacioneId, fecha_orden, estado})
 
         res.json(ordenes);
 
@@ -83,11 +94,12 @@ export const crearOrden = async (req = request, res = response) => {
 export const editarOrden = async (req, res = response) => {
 
     const { id } = req.params;
-    const { body } = req;
+    const { clienteId, estadosaprobacioneId, fecha_orden, estado  } = req.body;
+    var fecha = Date.now();
 
     try {
 
-        const cliente = await Clientes.findByPk(body.clienteId)
+        const cliente = await Clientes.findByPk(clienteId)
         if (!cliente) {
             res.status(404).json({
                 msg: 'El cliente ingresado no existe'
@@ -100,7 +112,7 @@ export const editarOrden = async (req, res = response) => {
             });
         }
 
-        await ordenes.update(body);
+        await ordenes.update({clienteId, estadosaprobacioneId, fecha_orden, estado, fecha_modificacion: fecha});
 
         res.json(ordenes);
 
