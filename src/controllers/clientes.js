@@ -25,7 +25,29 @@ export const getClientes = async (req, res = response) => {
 
     res.json(clientes);
 }
+export const getClientesEstado = async (req, res = response) => {
+    const { estado } = req.params;
 
+    const clientes = await Clientes.findAll({
+        where: { estado: estado },
+        include: [
+            {
+                model: Ordenes,
+                include: [{
+                    model: Productos,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                }],
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+            }
+        ]
+    });
+
+    res.json(clientes);
+}
 export const getCliente = async (req, res = response) => {
 
     const { id } = req.params;
@@ -79,7 +101,7 @@ export const crearCliente = async (req = request, res = response) => {
 export const editarCliente = async (req, res = response) => {
 
     const { id } = req.params;
-    const {  nombre, direccion, telefono, nacionalidad, correo, estado  } = req.body;
+    const { nombre, direccion, telefono, nacionalidad, correo, estado } = req.body;
     var fecha = Date.now();
     try {
 

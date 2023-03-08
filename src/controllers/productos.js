@@ -3,7 +3,7 @@ import { response, request } from "express";
 import { generarConsecutivo } from "../helpers/generar_consecutivo.js";
 
 import { Ordenes } from "../models/ordenes.js";
-import { Productos }  from "../models/productos.js";
+import { Productos } from "../models/productos.js";
 
 export const getProductos = async (req, res = response) => {
 
@@ -19,6 +19,25 @@ export const getProductos = async (req, res = response) => {
 
     res.json(productos);
 }
+
+export const getProductosEstado = async (req, res = response) => {
+
+    const { estado } = req.params;
+
+    const productos = await Productos.findAll({
+        where: { estado: estado },
+        include: [
+            {
+                model: Ordenes,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }]
+    });
+
+    res.json(productos);
+}
+
 
 export const getProducto = async (req, res = response) => {
 
@@ -45,19 +64,19 @@ export const getProducto = async (req, res = response) => {
 
 export const crearProducto = async (req = request, res = response) => {
 
-    const { nombre, ordeneId,descripcion,alto,ancho, estado } = req.body;
+    const { nombre, ordeneId, descripcion, alto, ancho, estado } = req.body;
 
     try {
 
         const Orden = await Ordenes.findByPk(ordeneId)
-        if(!Orden){
+        if (!Orden) {
             res.status(404).json({
                 msg: 'La orden ingresada no existe'
             })
         }
         const consecutivos = await generarConsecutivo(10000)
         console.log(consecutivos)
-        const productos = await Productos.create({ nombre, ordeneId,descripcion,consecutivo: consecutivos, alto,ancho, estado })
+        const productos = await Productos.create({ nombre, ordeneId, descripcion, consecutivo: consecutivos, alto, ancho, estado })
 
         res.json(productos);
 
@@ -74,12 +93,12 @@ export const crearProducto = async (req = request, res = response) => {
 export const editarProducto = async (req, res = response) => {
 
     const { id } = req.params;
-    const { nombre, ordeneId,descripcion,alto,ancho, estado  } = req.body;
+    const { nombre, ordeneId, descripcion, alto, ancho, estado } = req.body;
     var fecha = Date.now();
     try {
 
         const Orden = await Clientes.findByPk(ordeneId)
-        if(!cliente){
+        if (!cliente) {
             res.status(404).json({
                 msg: 'la orden ingresada no existe'
             })
@@ -91,7 +110,7 @@ export const editarProducto = async (req, res = response) => {
             });
         }
         const consecutivos = generarConsecutivo(10000)
-        await ordenes.update({nombre, ordeneId,descripcion,consecutivo: consecutivos,alto,ancho, estado, fecha_modificacion: fecha });
+        await ordenes.update({ nombre, ordeneId, descripcion, consecutivo: consecutivos, alto, ancho, estado, fecha_modificacion: fecha });
 
         res.json(ordenes);
 

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos.js";
 
-import { getProducto, getProductos, crearProducto, editarProducto } from "../controllers/productos.js"
+import { getProducto, getProductos, crearProducto, editarProducto, getProductosEstado } from "../controllers/productos.js"
 
 const router = Router();
 
@@ -137,4 +137,35 @@ router.put('/:id', [
     check('estado', 'El estado es obligatorio').not().isEmpty(),
     validarCampos], editarProducto);
 
+/**
+ * @openapi
+ * /api/productos/estado/{estado}:
+ *   get:
+ *     tags:
+ *       - API PRODUCTOS
+ *     parameters:
+ *       - name: estado
+ *         in: path
+ *         description: estado  de la clase productos
+ *         required: true
+ *         schema:
+ *              type: integer
+ *              format: int64    
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array 
+ *                   items: 
+ *                     type: object
+ */
+router.get('/estado/:estado', getProductosEstado);
 export default router;

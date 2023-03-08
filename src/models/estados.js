@@ -37,4 +37,3 @@ export const Estados = sequelize.define("estados_aprobaciones",
         timestamps: false,
     }
 );
-

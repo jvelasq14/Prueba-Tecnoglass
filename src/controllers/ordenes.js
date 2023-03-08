@@ -14,7 +14,36 @@ export const getOrdenes = async (req, res = response) => {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
-            },{
+            }, {
+                model: Productos,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            },
+            {
+                model: Estados,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }]
+    });
+
+    res.json(ordenes);
+}
+
+export const getOrdenesEstado = async (req, res = response) => {
+
+    const { estado } = req.params;
+    
+    const ordenes = await Ordenes.findAll({
+        where: { estado: estado },
+        include: [
+            {
+                model: Clientes,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }, {
                 model: Productos,
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
@@ -67,7 +96,7 @@ export const getOrden = async (req, res = response) => {
 
 export const crearOrden = async (req = request, res = response) => {
 
-    const { clienteId, estadoaprobacioneId, fecha_orden, estado } = req.body;
+    const { clienteId, estadosaprobacioneId, fecha_orden, estado } = req.body;
 
     try {
 
@@ -77,7 +106,7 @@ export const crearOrden = async (req = request, res = response) => {
                 msg: 'El cliente ingresado no existe'
             })
         }
-        const ordenes = await Ordenes.create({clienteId, estadoaprobacioneId, fecha_orden, estado})
+        const ordenes = await Ordenes.create({ clienteId, estadosaprobacioneId, fecha_orden, estado })
 
         res.json(ordenes);
 
@@ -94,7 +123,7 @@ export const crearOrden = async (req = request, res = response) => {
 export const editarOrden = async (req, res = response) => {
 
     const { id } = req.params;
-    const { clienteId, estadosaprobacioneId, fecha_orden, estado  } = req.body;
+    const { clienteId, estadosaprobacioneId, fecha_orden, estado } = req.body;
     var fecha = Date.now();
 
     try {
@@ -112,7 +141,7 @@ export const editarOrden = async (req, res = response) => {
             });
         }
 
-        await ordenes.update({clienteId, estadosaprobacioneId, fecha_orden, estado, fecha_modificacion: fecha});
+        await ordenes.update({ clienteId, estadosaprobacioneId, fecha_orden, estado, fecha_modificacion: fecha });
 
         res.json(ordenes);
 
